@@ -23,11 +23,11 @@ export class GameOver extends Scene
     {
         this.background = this.add.image(512, 384, 'background').setAlpha(0.6);
 
-        this.add.image(512, 300, 'chris-super').setScale(0.7);
+        this.add.image(512, 300, 'chris-french').setScale(0.7);
 
-        this.add.text(512, 480, 'Chris approves', {
-            fontFamily: 'Arial Black', fontSize: 56, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 8
+        this.add.text(512, 480, 'Merdre!', {
+            fontFamily: 'Arial Black', fontSize: 96, color: '#ffffff',
+            stroke: '#000000', strokeThickness: 10
         }).setOrigin(0.5);
 
         this.add.text(512, 560, `Final score: ${this.score}`, {
