@@ -26,6 +26,16 @@ export class Preloader extends Scene
         this.load.image('chris-super', 'chris/super-chris.png');
         this.load.image('chris-french', 'chris/french-chris.png');
         this.load.image('chris-after-hours', 'chris/after-hours-chris.png');
+        this.load.image('wall-tile', 'tile2.png');
+
+        // "Taking A Bite" by Mike Koenig — CC BY 3.0, via soundbible.com
+        this.load.audio('chomp', 'sounds/chomp.mp3');
+
+        // La Marseillaise — public domain (U.S. Navy Band recording), via Wikimedia Commons
+        this.load.audio('marseillaise', 'sounds/marseillaise.mp3');
+
+        // Sad trombone (wah-wah) — CC0 / public domain, via orangefreesounds.com
+        this.load.audio('sad-trombone', 'sounds/sad-trombone.mp3');
     }
 
     create ()

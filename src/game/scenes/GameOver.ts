@@ -2,12 +2,14 @@ import { Scene, GameObjects } from 'phaser';
 
 interface GameOverData {
     score?: number;
+    caught?: boolean;
 }
 
 export class GameOver extends Scene
 {
     background: GameObjects.Image;
     score = 0;
+    caught = true;
 
     constructor ()
     {
@@ -17,15 +19,38 @@ export class GameOver extends Scene
     init (data: GameOverData)
     {
         this.score = data?.score ?? 0;
+        this.caught = data?.caught ?? true;
     }
 
     create ()
     {
         this.background = this.add.image(512, 384, 'background').setAlpha(0.6);
 
-        this.add.image(512, 300, 'chris-after-hours').setScale(0.5);
+        const CHRIS_X = 512;
+        const CHRIS_Y = 280;
+        const CHRIS_SCALE = 2;
+        this.add.image(CHRIS_X, CHRIS_Y, 'chris').setScale(CHRIS_SCALE);
 
-        this.add.text(512, 480, 'Merdre!', {
+        if (this.caught)
+        {
+            // Teardrops on/under the eyes. Chris source is 128×128 — eyes sit
+            // roughly at (45, 55) and (80, 55); shift relative to source center
+            // (64, 64), scale by CHRIS_SCALE, then translate to display.
+            const tearStyle = { fontSize: '36px' };
+            const tearSpots = [
+                { sx: 45, sy: 58 },
+                { sx: 80, sy: 58 }
+            ];
+            for (const spot of tearSpots)
+            {
+                const screenX = CHRIS_X + (spot.sx - 64) * CHRIS_SCALE;
+                const screenY = CHRIS_Y + (spot.sy - 64) * CHRIS_SCALE;
+                this.add.text(screenX, screenY, '💧', tearStyle).setOrigin(0.5);
+            }
+        }
+
+        const headlineText = this.caught ? 'Merdre!' : 'Je suis pleine';
+        this.add.text(512, 480, headlineText, {
             fontFamily: 'Arial Black', fontSize: 96, color: '#ffffff',
             stroke: '#000000', strokeThickness: 10
         }).setOrigin(0.5);
@@ -35,8 +60,8 @@ export class GameOver extends Scene
             stroke: '#000000', strokeThickness: 6
         }).setOrigin(0.5);
 
-        const prompt = this.add.text(512, 680, 'click to play again', {
-            fontFamily: 'Arial', fontSize: 24, color: '#ffffff',
+        const prompt = this.add.text(512, 680, 'PRESS SPACE', {
+            fontFamily: 'Arial Black', fontSize: 30, color: '#ffffff',
             stroke: '#000000', strokeThickness: 4
         }).setOrigin(0.5);
         this.tweens.add({
@@ -48,8 +73,8 @@ export class GameOver extends Scene
             repeat: -1
         });
 
-        this.input.once('pointerdown', () => {
-            this.scene.start('MainMenu');
-        });
+        const restart = () => this.scene.start('MainMenu');
+        this.input.once('pointerdown', restart);
+        this.input.keyboard!.once('keydown-SPACE', restart);
     }
 }

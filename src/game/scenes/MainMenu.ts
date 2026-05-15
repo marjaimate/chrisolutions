@@ -45,7 +45,7 @@ export class MainMenu extends Scene
             repeat: -1
         });
 
-        this.title = this.add.text(512, -100, 'Chrisolutions', {
+        this.title = this.add.text(512, -100, 'Chris-Man', {
             fontFamily: 'Arial Black', fontSize: 72, color: '#ffffff',
             stroke: '#000000', strokeThickness: 10,
             align: 'center'
@@ -68,8 +68,8 @@ export class MainMenu extends Scene
             }
         });
 
-        this.prompt = this.add.text(512, 680, 'click anywhere to start', {
-            fontFamily: 'Arial', fontSize: 26, color: '#ffffff',
+        this.prompt = this.add.text(512, 680, 'PRESS SPACE', {
+            fontFamily: 'Arial Black', fontSize: 30, color: '#ffffff',
             stroke: '#000000', strokeThickness: 4
         }).setOrigin(0.5);
         this.tweens.add({
@@ -81,8 +81,8 @@ export class MainMenu extends Scene
             repeat: -1
         });
 
-        this.input.once('pointerdown', () => {
-            this.scene.start('Game');
-        });
+        const start = () => this.scene.start('Game');
+        this.input.once('pointerdown', start);
+        this.input.keyboard!.once('keydown-SPACE', start);
     }
 }
